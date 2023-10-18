@@ -1,6 +1,9 @@
 Rafael Riciardi Barreira - 11056916
 
 # Projeto 1 - DVD Animation
+
+Link para a aplicação: https://rafaelriciardi.github.io/abcg/
+
 ## Motivação e ideia principal
 
 No decorrer das aulas, ao ver alguns exemplos, tive a ideia de fazer algo muito semelhante e inspirado naquelas animações da tela de espera dos DVDs que tinham antigamente, como o exemplo da imagem abaixo:
