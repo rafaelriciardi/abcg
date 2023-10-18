@@ -38,3 +38,37 @@ Para conseguir controlar uma variação de velocidade na execução, utilizei um
     m_timer.restart();
   }
 ```
+Esse próximo trecho justamente rege o comportamento de quando o circulo de choca com alguma das extremidades da tela. Para identificar esse momento, basicamente é verificado se a posição de translação absoluta no eixo é maior do que 0.8. Esse valor foi encontrado puramente por meio de testes de maneira que o toque a borda parecesse mais natural.
+Ao tocar as bordas, dependendo da seleção da UI que será explicado mais abaixo, ou o sentido do deslocamento no eixo é apenas invertido (Recoil Mode = Stable) ou além do sentido ser invertido, também é gerada uma nova taxa de translação de maneira aleatória (Recoil Mode = Randomized). Além disso, ao tocar nas bordas, novas cores também são sorteadas para o objeto.
+Para evitar um bug que estava ocorrendo, também foram criadas flags de controle para cada eixo, de modo que esse comportamento acima do pode ser executado uma vez quando o circulo estiver dentro do valor de 0.8 e isso é resetado quando ele volta para pelo menos 0.75. Isso evita um bug do objeto ficar preso nesse ciclo de comportamento quando chegava próximo a borda em alguns momentos.
+```
+  if (abs(translationX) > 0.8f){ //In case of X border impact, changes the color and the translation direction
+    if(changeFlagX){
+      if (recoilOption == 1)
+        translationModifierX = (translationModifierX / -abs(translationModifierX)) * tm_rd(m_randomEngine);
+      else
+        translationModifierX *= -1;
+      color1 = {rd(m_randomEngine), rd(m_randomEngine),rd(m_randomEngine)};
+      color2 = {rd(m_randomEngine), rd(m_randomEngine),rd(m_randomEngine)};
+      changeFlagX = false; 
+    }
+  } 
+  else if (abs(translationX) < 0.75f) {
+    changeFlagX = true;
+  }
+
+  if (abs(translationY) > 0.8f){ //In case of Y border impact, changes the color and the translation direction
+    if(changeFlagY){
+      if (recoilOption == 1)
+        translationModifierY = (translationModifierY / -abs(translationModifierY)) * tm_rd(m_randomEngine);
+      else
+        translationModifierY *= -1;
+      color1 = {rd(m_randomEngine), rd(m_randomEngine),rd(m_randomEngine)};
+      color2 = {rd(m_randomEngine), rd(m_randomEngine),rd(m_randomEngine)};
+      changeFlagY = false;
+    }
+  } 
+  else if (abs(translationY) < 0.75f) {
+    changeFlagY = true;
+  }
+```
